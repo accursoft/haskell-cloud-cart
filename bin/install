@@ -1,3 +1,5 @@
 #!/bin/bash -eu
 
+ghc-pkg init $CABAL_PACKAGE_DB
 ghc-pkg recache
+cabal update
