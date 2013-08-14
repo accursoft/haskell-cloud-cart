@@ -1,0 +1,19 @@
+#!/bin/bash -eu
+
+export OPENSHIFT_HASKELL_DIR=`pwd`
+export PATH=`pwd`/usr/ghc/bin:$PATH
+openshift=`pwd`/.openshift
+sed -i "s|!openshift!|$openshift|g" $openshift/config
+sed -i "s|!OPENSHIFT_HASKELL_DIR!|$OPENSHIFT_HASKELL_DIR|g" $openshift/config
+ghc-pkg recache
+export CABAL_CONFIG=$openshift/config
+cabal update
+#cabal install --global 
+usr=`pwd`/usr
+ghc=$usr/ghc/lib
+packages=$ghc/ghc-7.6.3/package.conf.d
+sed -i "s|$ghc|\$topdir/..|g" $packages/*.conf
+sed -i "s|$usr|\$topdir/../../..|g" $packages/*.conf
+sed -i "s|haddock-interfaces: .*|haddock-interfaces:|g" $packages/*.conf
+sed -i "s|haddock-html: .*|haddock-html|g" $packages/*.conf
+rm $packages/package.cache
