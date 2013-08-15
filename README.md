@@ -13,7 +13,7 @@ For a general understanding of the OpenShift environment, consult the [Online](h
 
 Installation
 ------------
-Use the [Cartridge Reflector](http://cartreflect-claytondev.rhcloud.com/) to obtain the cartridge's manifest, e.g. http://cartreflect-claytondev.rhcloud.com/reflect?github=accursoft/Haskell-Cloud. Alternatively, to create a new Haskell application in OpenShift online, just follow [this link](https://openshift.redhat.com/app/console/application_type/custom?cartridges[]=http://cartreflect-claytondev.rhcloud.com/reflect?github=accursoft/Haskell-Cloud).
+Haskell Cloud is built in various flavours, with different pre-installed packages. See the [Haskell wiki](http://www.haskell.org/haskellwiki/Web/Cloud) for details and installation links.
 
 Haskell
 -------
