@@ -8,7 +8,7 @@ sed -i "s|!OPENSHIFT_HASKELL_DIR!|$OPENSHIFT_HASKELL_DIR|g" $openshift/config
 ghc-pkg recache
 export CABAL_CONFIG=$openshift/config
 cabal update
-#cabal install --global 
+cabal install --global network
 usr=`pwd`/usr
 ghc=$usr/ghc/lib
 packages=$ghc/ghc-7.6.3/package.conf.d
