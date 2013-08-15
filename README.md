@@ -5,7 +5,6 @@ Haskell Cloud is an [OpenShift](https://www.openshift.com/) cartridge for deploy
 
 - GHC 7.6.3
 - cabal-install 1.16.0.2
-- happy 1.80.10
 - gold linker 1.11
 
 OpenShift
