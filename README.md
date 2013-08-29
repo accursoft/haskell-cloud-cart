@@ -19,6 +19,10 @@ Haskell
 -------
 The application's `cabal` file must define an executable called `server`, which takes two command line arguments; the IP address and port number to listen on. (These can also be take from `$OPENSHIFT_HASKELL_IP` and `$OPENSHIFT_HASKELL_PORT`.) When new code is pushed to the application's repository, the cartridge will build it with `cabal install`, then start the server. The server will be sent the `SIGTERM` signal when the cartridge receives the stop command.
 
+Build Tools
+-----------
+Cabal does not automatically install `build-tools` ([#220](https://github.com/haskell/cabal/issues/220)). They must be installed manually, e.g. `rhc ssh <app> 'cabal install <something>'`.
+
 Logging
 -------
 The logs directory is defined in `$OPENSHIFT_HASKELL_LOG_DIR`. Cabal's build summaries are logged to `build.log`. The application developer is responsible for any other logging - stdout and stderr are not preserved.
