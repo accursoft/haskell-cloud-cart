@@ -25,7 +25,7 @@ Cabal does not automatically install `build-tools` ([#220](https://github.com/ha
 
 Logging
 -------
-The logs directory is defined in `$OPENSHIFT_HASKELL_LOG_DIR`. Cabal's build summaries are logged to `build.log`. The application developer is responsible for any other logging - stdout and stderr are not preserved.
+`stdout` and `stderr` are logged to `$OPENSHIFT_HASKELL_LOG_DIR` (remember to `hFlush stdout` after each log message, or `hSetBuffering stdout LineBuffering`). Other logs may be written to `$OPENSHIFT_HASKELL_LOG_DIR` as desired.
 
 Tidying
 -------
