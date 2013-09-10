@@ -5,6 +5,7 @@ export PATH=`pwd`/usr/ghc/bin:$PATH
 openshift=`pwd`/.openshift
 sed -i "s|!openshift!|$openshift|g" $openshift/config
 sed -i "s|!OPENSHIFT_HASKELL_DIR!|$OPENSHIFT_HASKELL_DIR|g" $openshift/config
+sed -i "s|!packages!|$OPENSHIFT_DATA_DIR/packages|g" ${openshift}config
 ghc-pkg recache
 export CABAL_CONFIG=$openshift/config
 cabal update

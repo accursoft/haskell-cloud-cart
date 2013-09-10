@@ -9,7 +9,7 @@
 
 
 remote-repo: hackage.haskell.org:http://hackage.haskell.org/packages/archive
-remote-repo-cache: !openshift!/packages
+remote-repo-cache: !packages!
 -- local-repo:
 -- logs-dir:
 world-file: !openshift!world
