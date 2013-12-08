@@ -9,7 +9,33 @@ sed -i "s|!packages!|$OPENSHIFT_DATA_DIR/packages|g" ${openshift}config
 ghc-pkg recache
 export CABAL_CONFIG=$openshift/config
 cabal update
-cabal install --global network
+
+case $build in
+  network)
+    cabal install --global network
+    ;;
+  mflow)
+    cabal install --global MFlow
+    ;;
+  yesod)
+    cabal install --global yesod-platform happy esqueleto
+    ;;
+  snap)
+    cabal install --global snap
+    ;;
+  scotty)
+    cabal install --global scotty
+    ;;
+  happstack)
+    cabal install --global happy
+    cabal install --global hsx2hs
+    cabal install --global happstack-foundation
+    ;;
+  *)
+    echo Unknown build option $build
+    exit 1
+esac
+
 usr=`pwd`/usr
 ghc=$usr/ghc/lib
 packages=$ghc/ghc-7.6.3/package.conf.d
@@ -18,3 +44,5 @@ sed -i "s|$usr|\$topdir/../../..|g" $packages/*.conf
 sed -i "s|haddock-interfaces: .*|haddock-interfaces:|g" $packages/*.conf
 sed -i "s|haddock-html: .*|haddock-html|g" $packages/*.conf
 rm $packages/package.cache
+
+zip -r .openshift/$build.zip *

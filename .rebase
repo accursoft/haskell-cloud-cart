@@ -1,8 +1,0 @@
-#!/bin/bash -eu
-
-git rebase master happstack
-git rebase master plain
-git rebase master mflow
-git rebase master yesod
-git rebase master snap
-git rebase master scotty

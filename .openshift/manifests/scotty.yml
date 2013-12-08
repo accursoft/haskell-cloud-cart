@@ -1,0 +1,20 @@
+Name: scotty
+Cartridge-Short-Name: HASKELL
+Display-Name: Scotty
+Version: '7.6.3'
+Cartridge-Version: 0.1
+Cartridge-Vendor: accursoft
+Description: "GHC 7.6.3 and Scotty"
+Website: https://github.com/ku-fpg/scotty
+Install-Build-Required: True
+Categories:
+  - haskell
+  - web_framework
+Endpoints:
+  - Private-IP-Name:   IP
+    Private-Port-Name: PORT
+    Private-Port:      8080
+    Mappings:
+      - Frontend:      ""
+        Backend:       ""
+        Options:       {websocket: true}
