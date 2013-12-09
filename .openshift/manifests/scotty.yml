@@ -18,3 +18,4 @@ Endpoints:
       - Frontend:      ""
         Backend:       ""
         Options:       {websocket: true}
+Source-Url: http://www.accursoft.com/cartridges/scotty.zip

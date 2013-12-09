@@ -45,4 +45,5 @@ sed -i "s|haddock-interfaces: .*|haddock-interfaces:|g" $packages/*.conf
 sed -i "s|haddock-html: .*|haddock-html|g" $packages/*.conf
 rm $packages/package.cache
 
+mv .openshift/manifests/$build.yml metadata/manifest.yml
 zip -r .openshift/$build.zip *
