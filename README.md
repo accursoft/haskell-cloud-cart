@@ -4,8 +4,8 @@ Haskell Cloud
 Haskell Cloud is an [OpenShift](https://www.openshift.com/) cartridge for deploying Haskell on the open source PaaS cloud. It includes:
 
 - GHC 7.6.3
-- cabal-install 1.16.0.2
-- gold linker 1.11
+- cabal-install
+- gold linker
 
 OpenShift
 ---------

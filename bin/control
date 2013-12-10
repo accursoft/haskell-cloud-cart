@@ -71,8 +71,6 @@ case "$1" in
     cd $OPENSHIFT_REPO_DIR
     if marker_present run_tests; then
       cabal install --enable-tests --only-dependencies
-      cabal configure --enable-tests
-      cabal build
       echo "marker: run_tests ..."
       log=$OPENSHIFT_HASKELL_LOG_DIR/tests.log
       timestamp >>$log

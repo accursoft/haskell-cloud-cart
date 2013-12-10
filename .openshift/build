@@ -3,19 +3,36 @@
 #local paths
 export OPENSHIFT_HASKELL_DIR=`pwd`
 export PATH=`pwd`/usr/ghc/bin:$PATH
+openshift=`pwd`/.openshift
 
 #initialise the global package db
 ghc-pkg recache
 
-#prepare cabal
-openshift=`pwd`/.openshift
+#cabal configuration
 sed -i "s|!openshift!|$openshift|g" $openshift/config
 sed -i "s|!OPENSHIFT_HASKELL_DIR!|$OPENSHIFT_HASKELL_DIR|g" $openshift/config
 sed -i "s|!packages!|$OPENSHIFT_DATA_DIR/packages|g" $openshift/config
 export CABAL_CONFIG=$openshift/config
-cabal update
+
+#use existing cabal or build from hackage
+if ! [ -e $OPENSHIFT_DATA_DIR/cabal ]; then
+  cd .openshift
+  curl -s http://hackage.haskell.org`curl -s http://hackage.haskell.org/package/cabal-install | grep -o '/package/cabal-install-[0-9.]*/cabal-install-[0-9.]*.tar.gz'` | tar xz
+  cd cabal-install-*
+  #put the packages installed by cabal-install in a temporary location, they might not be the best ones to use with the cartridge frameworks
+  ghc-pkg init $openshift/ghc
+  export EXTRA_CONFIGURE_OPTS=--package-db=$openshift/ghc
+  sed -i "s|\${HOME}/.cabal|$openshift/cabal|g" bootstrap.sh
+  sed -i "s|\${CURL} -L|\${CURL} -s -L|g" bootstrap.sh
+  ./bootstrap.sh
+  mv $openshift/cabal/bin/cabal $OPENSHIFT_DATA_DIR
+  cd ../..
+fi
+cp $OPENSHIFT_DATA_DIR/cabal usr/ghc/bin/
 
 #install packages
+cabal update
+
 case $build in
   network)
     cabal install --global network
