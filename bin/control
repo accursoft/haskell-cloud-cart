@@ -69,6 +69,7 @@ case "$1" in
       cabal update
     fi
     cd $OPENSHIFT_REPO_DIR
+    touch .timestamp
     if marker_present run_tests; then
       cabal install --enable-tests --only-dependencies
       echo "marker: run_tests ..."
@@ -77,5 +78,9 @@ case "$1" in
       cabal test --log=$log
     fi
     cabal install
+    if [ -e $OPENSHIFT_HASKELL_DIR/cabal/lib ]; then
+      echo "stripping libraries ..."
+      find $OPENSHIFT_HASKELL_DIR/cabal/lib -newer .timestamp -name '*.a' -exec strip --strip-unneeded {} +
+    fi
     ;;
 esac

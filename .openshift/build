@@ -60,6 +60,7 @@ cp $OPENSHIFT_DATA_DIR/cabal usr/ghc/bin/
 
 #install packages
 cabal update
+touch .openshift/timestamp
 
 case $build in
   network)
@@ -98,6 +99,8 @@ rm $packages/package.cache
 #remove references to non-existent documentation
 sed -i "s|haddock-interfaces: .*|haddock-interfaces:|g" $packages/*.conf
 sed -i "s|haddock-html: .*|haddock-html|g" $packages/*.conf
+
+find $ghc -newer .openshift/timestamp -name '*.a' -exec strip --strip-unneeded {} +
 
 #package the cartridge
 mv .openshift/manifests/$build.yml metadata/manifest.yml
