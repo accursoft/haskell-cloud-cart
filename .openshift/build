@@ -5,6 +5,34 @@ export OPENSHIFT_HASKELL_DIR=`pwd`
 export PATH=`pwd`/usr/ghc/bin:$PATH
 openshift=`pwd`/.openshift
 
+#use existing gold linker or build from source
+if ! [ -e $OPENSHIFT_DATA_DIR/ld ]; then
+  cd .openshift
+  #we need bison
+  if ! [ -e $OPENSHIFT_DATA_DIR/bin/bison ]; then
+    curl -Ls http://ftpmirror.gnu.org/bison/`curl -s http://ftp.gnu.org/gnu/bison/ | grep -o bison-[0-9.]*.tar.xz | tail -1` | tar xJ
+    cd bison-*
+    ./configure --prefix=$OPENSHIFT_DATA_DIR
+    make
+    make install
+    strip $OPENSHIFT_DATA_DIR/bin/bison $OPENSHIFT_DATA_DIR/lib/liby.a
+    cd ..
+  fi
+  export PATH=$PATH:$OPENSHIFT_DATA_DIR/bin
+  curl -Ls http://ftpmirror.gnu.org/binutils/`curl -s http://ftp.gnu.org/gnu/binutils/ | grep -o binutils-[0-9.]*.tar.bz2 | tail -1` | tar xj
+  cd binutils-*
+  ./configure
+  make
+  cd gold
+  ./configure --prefix=$openshift
+  make
+  make install
+  cd ../../..
+  strip .openshift/bin/ld.gold
+  mv .openshift/bin/ld.gold $OPENSHIFT_DATA_DIR/ld
+fi
+cp $OPENSHIFT_DATA_DIR/ld usr/ghc/bin/
+
 #initialise the global package db
 ghc-pkg recache
 
