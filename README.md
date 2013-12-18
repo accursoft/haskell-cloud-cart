@@ -15,6 +15,8 @@ Installation
 ------------
 Haskell Cloud is built in various flavours, with different pre-installed packages. See the [Haskell wiki](http://www.haskell.org/haskellwiki/Web/Cloud) for details and installation links.
 
+`cabal update` is started asynchronously when the cartridge is installed. If you encounter a situation where the first build fails because the update is still in progress, [please open an issue](https://github.com/accursoft/Haskell-Cloud/issues/new).
+
 Haskell
 -------
 The application's `cabal` file must define an executable called `server`, which takes two command line arguments; the IP address and port number to listen on. (These can also be take from `$OPENSHIFT_HASKELL_IP` and `$OPENSHIFT_HASKELL_PORT`.) When new code is pushed to the application's repository, the cartridge will build it with `cabal install`, then start the server. The server will be sent the `SIGTERM` signal when the cartridge receives the stop command.
