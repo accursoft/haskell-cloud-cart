@@ -63,7 +63,7 @@ remote-build-reporting: anonymous
 
 install-dirs user
   prefix: <%= ENV['OPENSHIFT_HASKELL_DIR'] %>/cabal
-  bindir: $prefix/bin
+  bindir: <%= ENV['OPENSHIFT_DEPENDENCIES_DIR'] %>
   libdir: $prefix/lib
   libsubdir: $pkgid/$compiler
   libexecdir: $prefix/libexec

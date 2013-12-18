@@ -57,7 +57,7 @@ case "$1" in
   build)
     if marker_present force_clean_build; then
       echo "marker: force_clean_build ..."
-      rm -rf $OPENSHIFT_HASKELL_DIR/cabal/bin
+      rm -rf $OPENSHIFT_DEPENDENCIES_DIR/*
       rm -rf $OPENSHIFT_HASKELL_DIR/cabal/lib
       rm -rf $OPENSHIFT_HASKELL_DIR/cabal/share
       rm -f $OPENSHIFT_HASKELL_DIR/cabal/world
