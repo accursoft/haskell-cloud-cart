@@ -10,8 +10,10 @@ if ! [ -e $OPENSHIFT_DATA_DIR/ld ]; then
   cd .openshift
   #we need bison
   if ! [ -e $OPENSHIFT_DATA_DIR/bin/bison ]; then
+    echo "* Downloading bison ..."
     curl -Ls http://ftpmirror.gnu.org/bison/`curl -s http://ftp.gnu.org/gnu/bison/ | grep -o bison-[0-9.]*.tar.xz | tail -1` | tar xJ
     cd bison-*
+    echo "* Building bison ..."
     ./configure --prefix=$OPENSHIFT_DATA_DIR
     make
     make install
@@ -19,11 +21,14 @@ if ! [ -e $OPENSHIFT_DATA_DIR/ld ]; then
     cd ..
   fi
   export PATH=$PATH:$OPENSHIFT_DATA_DIR/bin
+  echo "* Downloading bin-utils ..."
   curl -Ls http://ftpmirror.gnu.org/binutils/`curl -s http://ftp.gnu.org/gnu/binutils/ | grep -o binutils-[0-9.]*.tar.bz2 | tail -1` | tar xj
   cd binutils-*
+  echo "* Building bin-utils ..."
   ./configure
   make
   cd gold
+  echo "* Building gold ..."
   ./configure --prefix=$openshift
   make
   make install
@@ -45,8 +50,10 @@ export CABAL_CONFIG=$openshift/config
 #use existing cabal or build from hackage
 if ! [ -e $OPENSHIFT_DATA_DIR/cabal ]; then
   cd .openshift
+  echo "* Downloading cabal-install ..."
   curl -s http://hackage.haskell.org`curl -s http://hackage.haskell.org/package/cabal-install | grep -o '/package/cabal-install-[0-9.]*/cabal-install-[0-9.]*.tar.gz'` | tar xz
   cd cabal-install-*
+  echo "* Building cabal-install ..."
   #put the packages installed by cabal-install in a temporary location, they might not be the best ones to use with the cartridge frameworks
   ghc-pkg init $openshift/ghc
   export EXTRA_CONFIGURE_OPTS=--package-db=$openshift/ghc
@@ -59,9 +66,11 @@ fi
 cp $OPENSHIFT_DATA_DIR/cabal usr/ghc/bin/
 
 #install packages
+echo "* Cabal update ..."
 cabal update
 touch .openshift/timestamp
 
+echo "* Installing packages ..."
 case $build in
   network)
     cabal install --global network
@@ -100,8 +109,10 @@ rm $packages/package.cache
 sed -i "s|haddock-interfaces: .*|haddock-interfaces:|g" $packages/*.conf
 sed -i "s|haddock-html: .*|haddock-html|g" $packages/*.conf
 
+echo "* Stripping packages ..."
 find $ghc -newer .openshift/timestamp -name '*.a' -exec strip --strip-unneeded {} +
 
 #package the cartridge
+echo "* Building the cartridge ..."
 mv .openshift/manifests/$build.yml metadata/manifest.yml
 zip -r .openshift/$build.zip *
