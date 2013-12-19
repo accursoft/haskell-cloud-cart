@@ -55,6 +55,10 @@ case "$1" in
       rm -rf $CABAL_PACKAGE_DB
       ghc-pkg init $CABAL_PACKAGE_DB
     fi
+    if marker_present cabal_update; then
+      echo "marker: cabal_update ..."
+      cabal update
+    fi
     cd $OPENSHIFT_REPO_DIR
     cabal install
     ;;
