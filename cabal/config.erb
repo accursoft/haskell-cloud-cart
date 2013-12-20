@@ -32,7 +32,7 @@ library-for-ghci: False
 -- user-install: True
 package-db: <%= ENV['OPENSHIFT_HASKELL_DIR'] %>/cabal/package.conf.d
 -- flags:
-extra-include-dirs: <%= ENV['OPENSHIFT_HASKELL_DIR'] %>/usr/include
+-- extra-include-dirs:
 extra-lib-dirs: <%= ENV['OPENSHIFT_HASKELL_DIR'] %>/usr/lib64
 -- tests: False
 -- library-coverage: False
