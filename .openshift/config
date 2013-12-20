@@ -33,7 +33,7 @@ library-for-ghci: False
 -- package-db:
 -- flags:
 -- extra-include-dirs:
-extra-lib-dirs: !OPENSHIFT_HASKELL_DIR!/usr/lib64
+-- extra-lib-dirs:
 -- tests: False
 -- library-coverage: False
 -- benchmarks: False

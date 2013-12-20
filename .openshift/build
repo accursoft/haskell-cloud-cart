@@ -98,11 +98,9 @@ case $build in
 esac
 
 #convert absolute paths in package db to relative
-usr=`pwd`/usr
-ghc=$usr/ghc/lib
+ghc=`pwd`/usr/ghc/lib
 packages=$ghc/ghc-7.6.3/package.conf.d
 sed -i "s|$ghc|\$topdir/..|g" $packages/*.conf
-sed -i "s|$usr|\$topdir/../../..|g" $packages/*.conf
 rm $packages/package.cache
 
 #remove references to non-existent documentation
