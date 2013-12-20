@@ -2,7 +2,7 @@
 
 #local paths
 export OPENSHIFT_HASKELL_DIR=`pwd`
-export PATH=`pwd`/usr/ghc/bin:$PATH
+export PATH=`pwd`/usr/bin:$PATH
 openshift=`pwd`/.openshift
 
 #use existing gold linker or build from source
@@ -36,7 +36,7 @@ if ! [ -e $OPENSHIFT_DATA_DIR/ld ]; then
   strip .openshift/bin/ld.gold
   mv .openshift/bin/ld.gold $OPENSHIFT_DATA_DIR/ld
 fi
-cp $OPENSHIFT_DATA_DIR/ld usr/ghc/bin/
+cp $OPENSHIFT_DATA_DIR/ld usr/bin/
 
 #initialise the global package db
 ghc-pkg recache
@@ -63,7 +63,7 @@ if ! [ -e $OPENSHIFT_DATA_DIR/cabal ]; then
   mv $openshift/cabal/bin/cabal $OPENSHIFT_DATA_DIR
   cd ../..
 fi
-cp $OPENSHIFT_DATA_DIR/cabal usr/ghc/bin/
+cp $OPENSHIFT_DATA_DIR/cabal usr/bin/
 
 #install packages
 echo "* Cabal update ..."
@@ -98,7 +98,7 @@ case $build in
 esac
 
 #convert absolute paths in package db to relative
-ghc=`pwd`/usr/ghc/lib
+ghc=`pwd`/usr/lib
 packages=$ghc/ghc-7.6.3/package.conf.d
 sed -i "s|$ghc|\$topdir/..|g" $packages/*.conf
 rm $packages/package.cache

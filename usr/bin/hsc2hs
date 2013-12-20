@@ -1,10 +1,10 @@
 #!/bin/sh
-exedir="$OPENSHIFT_HASKELL_DIR/usr/ghc/lib/ghc-7.6.3"
+exedir="$OPENSHIFT_HASKELL_DIR/usr/lib/ghc-7.6.3"
 exeprog="hsc2hs"
 executablename="$exedir/$exeprog"
-datadir="$OPENSHIFT_HASKELL_DIR/usr/ghc/share"
-bindir="$OPENSHIFT_HASKELL_DIR/usr/ghc/bin"
-topdir="$OPENSHIFT_HASKELL_DIR/usr/ghc/lib/ghc-7.6.3"
+datadir="$OPENSHIFT_HASKELL_DIR/usr/share"
+bindir="$OPENSHIFT_HASKELL_DIR/usr/bin"
+topdir="$OPENSHIFT_HASKELL_DIR/usr/lib/ghc-7.6.3"
 HSC2HS_EXTRA="--cflag=-fno-stack-protector "
 #!/bin/sh
 
