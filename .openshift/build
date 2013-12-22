@@ -112,5 +112,6 @@ find $ghc -newer .openshift/timestamp -name '*.a' -exec strip --strip-unneeded {
 
 #package the cartridge
 echo "* Building the cartridge ..."
-mv .openshift/manifests/$build.yml metadata/manifest.yml
+cat .openshift/manifests/$build.yml >>metadata/manifest.yml
+sed -i "s/{GHC-version}/7.6.3/g" metadata/manifest.yml
 zip -r .openshift/$build.zip *

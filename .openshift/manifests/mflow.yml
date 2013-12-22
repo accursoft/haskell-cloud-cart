@@ -1,21 +1,4 @@
 Name: mflow
-Cartridge-Short-Name: HASKELL
 Display-Name: MFlow
-Version: '7.6.3'
-Cartridge-Version: 0.1
-Cartridge-Vendor: accursoft
-Description: "GHC 7.6.3 and MFlow"
+Description: "GHC {GHC-version} and MFlow"
 Website: http://hackage.haskell.org/package/MFlow
-Install-Build-Required: True
-Categories:
-  - haskell
-  - web_framework
-Endpoints:
-  - Private-IP-Name:   IP
-    Private-Port-Name: PORT
-    Private-Port:      8080
-    Mappings:
-      - Frontend:      ""
-        Backend:       ""
-        Options:       {websocket: true}
-Source-Url: http://www.accursoft.com/cartridges/mflow.zip
