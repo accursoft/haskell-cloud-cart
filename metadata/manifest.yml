@@ -1,15 +1,20 @@
 Cartridge-Short-Name: HASKELL
 Version: '{GHC-version}'
-Cartridge-Version: 0.1
+Cartridge-Version: 0.2
 Cartridge-Vendor: accursoft
 Install-Build-Required: True
 Categories:
   - haskell
   - web_framework
+  - service
+Scaling:
+  Min: 1
+  Max: -1
 Endpoints:
   - Private-IP-Name:   IP
     Private-Port-Name: PORT
     Private-Port:      8080
+    Public-Port-Name:  PROXY_PORT
     Mappings:
       - Frontend:      ""
         Backend:       ""
