@@ -12,7 +12,7 @@ remote-repo: hackage.haskell.org:http://hackage.haskell.org/packages/archive
 remote-repo-cache: <%= ENV['OPENSHIFT_HASKELL_DIR'] %>/cabal/packages
 -- local-repo:
 -- logs-dir:
-world-file: <%= ENV['OPENSHIFT_HASKELL_DIR'] %>/cabal/world
+world-file: <%= ENV['OPENSHIFT_BUILD_DEPENDENCIES_DIR'] %>/world
 -- verbose: 1
 -- compiler: ghc
 -- with-compiler:
@@ -30,7 +30,8 @@ library-for-ghci: False
 -- split-objs: False
 -- executable-stripping: True
 -- user-install: True
-package-db: <%= ENV['OPENSHIFT_HASKELL_DIR'] %>/cabal/package.conf.d
+--   erb files are processed before environment variables, so can't use $CABAL_PACKAGE_DB here
+package-db: <%= ENV['OPENSHIFT_BUILD_DEPENDENCIES_DIR'] %>/package.conf.d
 -- flags:
 -- extra-include-dirs:
 -- extra-lib-dirs:
@@ -62,7 +63,7 @@ remote-build-reporting: anonymous
 -- password:
 
 install-dirs user
-  prefix: <%= ENV['OPENSHIFT_HASKELL_DIR'] %>/cabal
+  prefix: <%= ENV['OPENSHIFT_BUILD_DEPENDENCIES_DIR'] %>
   bindir: <%= ENV['OPENSHIFT_DEPENDENCIES_DIR'] %>
   libdir: $prefix/lib
   libsubdir: $pkgid/$compiler
