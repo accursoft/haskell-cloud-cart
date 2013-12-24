@@ -4,23 +4,24 @@
 export OPENSHIFT_HASKELL_DIR=`pwd`
 export PATH=`pwd`/usr/bin:$PATH
 openshift=`pwd`/.openshift
+PARTS_BIN=$OPENSHIFT_DATA_DIR/haskell
 
 #use existing gold linker or build from source
-if ! [ -e $OPENSHIFT_DATA_DIR/ld ]; then
+if ! [ -e $PARTS_BIN/ld ]; then
   cd .openshift
   #we need bison
-  if ! [ -e $OPENSHIFT_DATA_DIR/bin/bison ]; then
+  if ! [ -e $PARTS_BIN/bin/bison ]; then
     echo "* Downloading bison ..."
     curl -Ls http://ftpmirror.gnu.org/bison/`curl -s http://ftp.gnu.org/gnu/bison/ | grep -o bison-[0-9.]*.tar.xz | tail -1` | tar xJ
     cd bison-*
     echo "* Building bison ..."
-    ./configure --prefix=$OPENSHIFT_DATA_DIR
+    ./configure --prefix=$PARTS_BIN
     make
     make install
-    strip $OPENSHIFT_DATA_DIR/bin/bison $OPENSHIFT_DATA_DIR/lib/liby.a
+    strip $PARTS_BIN/bin/bison $PARTS_BIN/lib/liby.a
     cd ..
   fi
-  export PATH=$PATH:$OPENSHIFT_DATA_DIR/bin
+  export PATH=$PATH:$PARTS_BIN/bin
   echo "* Downloading bin-utils ..."
   curl -Ls http://ftpmirror.gnu.org/binutils/`curl -s http://ftp.gnu.org/gnu/binutils/ | grep -o binutils-[0-9.]*.tar.bz2 | tail -1` | tar xj
   cd binutils-*
@@ -34,9 +35,9 @@ if ! [ -e $OPENSHIFT_DATA_DIR/ld ]; then
   make install
   cd ../../..
   strip .openshift/bin/ld.gold
-  mv .openshift/bin/ld.gold $OPENSHIFT_DATA_DIR/ld
+  mv .openshift/bin/ld.gold $PARTS_BIN/ld
 fi
-cp $OPENSHIFT_DATA_DIR/ld usr/bin/
+cp $PARTS_BIN/ld usr/bin/
 
 #initialise the global package db
 ghc-pkg recache
@@ -44,11 +45,11 @@ ghc-pkg recache
 #cabal configuration
 sed -i "s|!openshift!|$openshift|g" $openshift/config
 sed -i "s|!OPENSHIFT_HASKELL_DIR!|$OPENSHIFT_HASKELL_DIR|g" $openshift/config
-sed -i "s|!packages!|$OPENSHIFT_DATA_DIR/packages|g" $openshift/config
+sed -i "s|!packages!|$PARTS_BIN/packages|g" $openshift/config
 export CABAL_CONFIG=$openshift/config
 
 #use existing cabal or build from hackage
-if ! [ -e $OPENSHIFT_DATA_DIR/cabal ]; then
+if ! [ -e $PARTS_BIN/cabal ]; then
   cd .openshift
   echo "* Downloading cabal-install ..."
   curl -s http://hackage.haskell.org`curl -s http://hackage.haskell.org/package/cabal-install | grep -o '/package/cabal-install-[0-9.]*/cabal-install-[0-9.]*.tar.gz'` | tar xz
@@ -60,10 +61,10 @@ if ! [ -e $OPENSHIFT_DATA_DIR/cabal ]; then
   sed -i "s|\${HOME}/.cabal|$openshift/cabal|g" bootstrap.sh
   sed -i "s|\${CURL} -L|\${CURL} -s -L|g" bootstrap.sh
   ./bootstrap.sh
-  mv $openshift/cabal/bin/cabal $OPENSHIFT_DATA_DIR
+  mv $openshift/cabal/bin/cabal $PARTS_BIN
   cd ../..
 fi
-cp $OPENSHIFT_DATA_DIR/cabal usr/bin/
+cp $PARTS_BIN/cabal usr/bin/
 
 #install packages
 echo "* Cabal update ..."
