@@ -53,10 +53,15 @@ case "$1" in
     rm -rf $OPENSHIFT_HASKELL_DIR/cabal/packages/hackage.haskell.org/build-reports.log
     echo "emptying working directory ..."
     rm -rf $OPENSHIFT_REPO_DIR/*
+    rm -rf $OPENSHIFT_HASKELL_DIR/cabal/dist/*
+    ;;
+  pre-build)
+    ln -s $OPENSHIFT_HASKELL_DIR/cabal/dist $OPENSHIFT_REPO_DIR
     ;;
   build)
     if marker_present force_clean_build; then
       echo "marker: force_clean_build ..."
+      rm -rf $OPENSHIFT_HASKELL_DIR/cabal/dist/*
       rm -rf $OPENSHIFT_DEPENDENCIES_DIR/*
       rm -rf $OPENSHIFT_BUILD_DEPENDENCIES_DIR/lib
       rm -rf $OPENSHIFT_BUILD_DEPENDENCIES_DIR/share

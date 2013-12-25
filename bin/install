@@ -4,3 +4,4 @@ cabal update &
 ghc-pkg init $CABAL_PACKAGE_DB
 ghc-pkg recache
 mkdir $OPENSHIFT_HASKELL_LOG_DIR
+mkdir $OPENSHIFT_HASKELL_DIR/cabal/dist
