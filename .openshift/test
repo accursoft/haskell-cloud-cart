@@ -1,0 +1,27 @@
+#!/bin/bash -eu
+
+#create app
+url=`rhc app create test "http://www.accursoft.com/cartridges/dev.yml" --noprompt | sed -n 's/ *URL: *//p'`
+#test template
+curl -s $url | grep Welcome
+
+cd test
+#change the welcome message
+sed -i 's/Welcome/Greetings/' Main.hs
+#add a package
+sed -i 's/process/process, stm/' server.cabal
+#check that force_clean_build doesn't break anything
+touch .openshift/markers/force_clean_build
+#check that tidy doesn't break anything
+rhc app tidy test
+
+#test the changes
+git add .openshift/markers/force_clean_build
+git commit -a -m test
+git push
+curl -s $url | grep Greetings
+
+#clear up
+rhc app delete test --confirm
+cd ..
+rm -rf test
