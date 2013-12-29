@@ -21,6 +21,21 @@ git commit -a -m test
 git push
 curl -s $url | grep Greetings
 
+#check run_tests
+git rm .openshift/markers/force_clean_build
+touch .openshift/markers/run_tests
+git add .openshift/markers/run_tests
+echo "main = return ()" >test.hs
+echo "test-suite test
+  type:exitcode-stdio-1.0
+  main-is:test.hs
+  build-depends:binding-core" >>server.cabal
+git add test.hs
+sed -i 's/Greetings/Hello/' Main.hs
+git commit -a -m test
+git push
+curl -s http://test-accursoft.rhcloud.com/ | grep Hello
+
 #clear up
 rhc app delete test --confirm
 cd ..
