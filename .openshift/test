@@ -1,7 +1,7 @@
 #!/bin/bash -eu
 
 #create app
-url=`rhc app create test "http://www.accursoft.com/cartridges/dev.yml" --noprompt | sed -n 's/ *URL: *//p'`
+url=`rhc app create test "http://www.accursoft.com/cartridges/dev.yml" --noprompt -s | sed -n 's/ *URL: *//p'`
 #test template
 curl -s $url | grep Welcome
 
