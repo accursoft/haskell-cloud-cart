@@ -31,7 +31,7 @@ Logging
 
 Tidying
 -------
-OpenShift's `tidy` command will delete all logs, cabal's cache of downloaded packages, and the repository working directory. Installed packages (and binaries) are not deleted.
+OpenShift's `tidy` command will delete all logs (if the server is stopped), cabal's cache of downloaded packages, and the repository working directory. Installed packages (and binaries) are not deleted.
 
 Markers
 -------
