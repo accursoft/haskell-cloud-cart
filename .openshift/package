@@ -1,0 +1,5 @@
+#!/bin/bash -eu
+
+zip -r .openshift/$build.zip *
+mv metadata/manifest.yml .openshift/$build.yml
+echo "Source-Url: http://www.accursoft.com/cartridges/$build.zip" >>.openshift/$build.yml

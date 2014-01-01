@@ -111,8 +111,6 @@ sed -i "s|haddock-html: .*|haddock-html|g" $packages/*.conf
 echo "* Stripping packages ..."
 find $ghc -newer .openshift/timestamp -name '*.a' -exec strip --strip-unneeded {} +
 
-#package the cartridge
-echo "* Building the cartridge ..."
+echo "* Preparing the manifest ..."
 cat .openshift/manifests/$build.yml >>metadata/manifest.yml
 sed -i "s/{GHC-version}/7.6.3/g" metadata/manifest.yml
-zip -r .openshift/$build.zip *
