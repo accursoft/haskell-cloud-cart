@@ -48,9 +48,7 @@ case "$1" in
     echo "deleting logs ..."
     rm -rf $OPENSHIFT_HASKELL_LOG_DIR/*
     echo "deleting hackage cache ..."
-    rm -rf $OPENSHIFT_HASKELL_DIR/cabal/packages/hackage.haskell.org/*/
-    rm -rf $OPENSHIFT_HASKELL_DIR/cabal/packages/hackage.haskell.org/00-index.tar.gz
-    rm -rf $OPENSHIFT_HASKELL_DIR/cabal/packages/hackage.haskell.org/build-reports.log
+    rm -rf $OPENSHIFT_HASKELL_DIR/cabal/packages/*
     echo "emptying working directory ..."
     rm -rf $OPENSHIFT_REPO_DIR/*
     rm -rf $OPENSHIFT_HASKELL_DIR/cabal/dist/*
@@ -69,8 +67,8 @@ case "$1" in
       rm -rf $CABAL_PACKAGE_DB
       ghc-pkg init $CABAL_PACKAGE_DB
     fi
-    if marker_present cabal_update; then
-      echo "marker: cabal_update ..."
+    if marker_present cabal_update || [ ! -d $OPENSHIFT_HASKELL_DIR/cabal/packages/hackage.haskell.org ]; then
+      marker_present cabal_update && echo "marker: cabal_update ..."
       cabal update
     fi
     cd $OPENSHIFT_REPO_DIR
