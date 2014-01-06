@@ -75,23 +75,29 @@ echo "* Installing packages ..."
 case $build in
   network)
     cabal install --global network
+    provides="network"
     ;;
   mflow)
     cabal install --global MFlow
+    provides="MFlow"
     ;;
   yesod)
     cabal install --global yesod-platform happy esqueleto
+    provides="yesod-platform-\d|^esqueleto"
     ;;
   snap)
     cabal install --global snap
+    provides="snap"
     ;;
   scotty)
     cabal install --global scotty
+    provides="scotty"
     ;;
   happstack)
     cabal install --global happy
     cabal install --global hsx2hs
     cabal install --global happstack-foundation
+    provides="happstack-foundation"
     ;;
   *)
     echo Unknown build option $build
@@ -112,6 +118,7 @@ echo "* Stripping packages ..."
 find $ghc -newer .openshift/timestamp -name '*.a' -exec strip --strip-unneeded {} +
 
 echo "* Preparing the manifest and readme ..."
+ls usr/lib -1 | grep -P "^$provides-\d" | sed 's/^/  - /' >>metadata/manifest.yml
 cat .openshift/manifests/$build.yml >>metadata/manifest.yml
 sed -i "s/{GHC-version}/7.6.3/g" metadata/manifest.yml
 

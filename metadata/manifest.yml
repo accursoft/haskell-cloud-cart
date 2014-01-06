@@ -19,3 +19,5 @@ Endpoints:
       - Frontend:      ""
         Backend:       ""
         Options:       {websocket: true}
+Provides:
+  - ghc-{GHC-version}
