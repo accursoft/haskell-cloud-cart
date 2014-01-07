@@ -118,6 +118,7 @@ echo "* Stripping packages ..."
 find $ghc -newer .openshift/timestamp -name '*.a' -exec strip --strip-unneeded {} +
 
 echo "* Preparing the manifest and readme ..."
+echo "  - cabal-install-`cabal --numeric-version`" >>metadata/manifest.yml
 ls usr/lib -1 | grep -P "^$provides-\d" | sed 's/^/  - /' >>metadata/manifest.yml
 cat .openshift/manifests/$build.yml >>metadata/manifest.yml
 sed -i "s/{GHC-version}/7.6.3/g" metadata/manifest.yml
