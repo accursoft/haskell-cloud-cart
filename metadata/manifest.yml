@@ -1,6 +1,6 @@
 Cartridge-Short-Name: HASKELL
 Version: '{GHC-version}'
-Cartridge-Version: 0.2
+Cartridge-Version: 0.3
 Cartridge-Vendor: accursoft
 Install-Build-Required: True
 Categories:
@@ -19,5 +19,9 @@ Endpoints:
       - Frontend:      ""
         Backend:       ""
         Options:       {websocket: true}
+Subscribes:
+  set-env:
+    Type: ENV:*
+    Required: false
 Provides:
   - ghc-{GHC-version}
