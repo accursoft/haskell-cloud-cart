@@ -20,9 +20,27 @@ git add .openshift/markers/force_clean_build
 git commit -a -m test
 git push
 curl -s $url | grep Greetings
+git rm .openshift/markers/force_clean_build
+
+#test cabal flags
+cp Main.hs test.hs
+sed -i 's/Greetings/Hello/' test.hs
+echo "Flag A" >>server.cabal
+sed -i 's/main-is: *Main.hs/if flag(a) {main-is:Main.hs} else {main-is:test.hs}/' server.cabal
+echo "b" >.openshift/markers/cabal_flags
+git add test.hs
+git add .openshift/markers/cabal_flags
+git commit -a -m test
+git push
+curl -s http://test-accursoft.rhcloud.com/ | grep Greetings
+echo "-a" >>.openshift/markers/cabal_flags
+git commit -a -m test
+git push
+curl -s http://test-accursoft.rhcloud.com/ | grep Hello
+git rm .openshift/markers/cabal_flags
+git commit -a -m test
 
 #check run_tests
-git rm .openshift/markers/force_clean_build
 touch .openshift/markers/run_tests
 git add .openshift/markers/run_tests
 echo "main = return ()" >test.hs
