@@ -81,7 +81,13 @@ case "$1" in
       timestamp >>$log
       cabal test --log=$log
     fi
-    cabal install
+    if marker_present cabal_flags; then
+      flags=$(cat $OPENSHIFT_REPO_DIR/.openshift/markers/cabal_flags)
+      echo "marker: cabal_flags: $flags"
+      cabal install -f"$flags"
+    else
+      cabal install
+    fi
     if [ -e $OPENSHIFT_BUILD_DEPENDENCIES_DIR/lib ]; then
       echo "stripping libraries ..."
       find $OPENSHIFT_BUILD_DEPENDENCIES_DIR/lib -newer .timestamp -name '*.a' -exec strip --strip-unneeded {} +

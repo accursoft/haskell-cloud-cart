@@ -1,6 +1,6 @@
 Cartridge-Short-Name: HASKELL
 Version: '{GHC-version}'
-Cartridge-Version: 0.3
+Cartridge-Version: 0.3.1
 Cartridge-Vendor: accursoft
 Install-Build-Required: True
 Categories:
