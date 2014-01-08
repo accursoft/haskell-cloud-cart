@@ -57,6 +57,7 @@ case "$1" in
     ln -s $OPENSHIFT_HASKELL_DIR/cabal/dist $OPENSHIFT_REPO_DIR
     ;;
   build)
+    marker_present hot_deploy && exit
     if marker_present force_clean_build; then
       echo "marker: force_clean_build ..."
       rm -rf $OPENSHIFT_HASKELL_DIR/cabal/dist/*
