@@ -59,13 +59,7 @@ case "$1" in
   build)
     marker_present hot_deploy && exit
     if marker_present force_clean_build; then
-      echo "marker: force_clean_build ..."
       rm -rf $OPENSHIFT_HASKELL_DIR/cabal/dist/*
-      rm -rf $OPENSHIFT_DEPENDENCIES_DIR/*
-      rm -rf $OPENSHIFT_BUILD_DEPENDENCIES_DIR/lib
-      rm -rf $OPENSHIFT_BUILD_DEPENDENCIES_DIR/share
-      rm -f $OPENSHIFT_BUILD_DEPENDENCIES_DIR/world
-      rm -rf $CABAL_PACKAGE_DB
       ghc-pkg init $CABAL_PACKAGE_DB
     fi
     if marker_present cabal_update || [ ! -d $OPENSHIFT_HASKELL_DIR/cabal/packages/hackage.haskell.org ]; then
