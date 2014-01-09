@@ -1,60 +1,53 @@
 #!/bin/bash -eu
 
+function check {
+  if [ -d .git ]; then
+    echo "  * Testing $1 ..."
+    git add -A
+    git commit -qmtest
+    git push -q
+  fi
+  curl -s $url | grep -q $2 && return
+  echo "  * $1 FAILED"
+  exit 1
+}
+
 #create app
 url=`rhc app create test "http://www.accursoft.com/cartridges/dev.yml" --noprompt -s | sed -n 's/ *URL: *//p'`
-#test template
-curl -s $url | grep Welcome
+check "create app" Welcome
 
+#tidy and force_clean_build
 cd test
-#change the welcome message
 sed -i 's/Welcome/Greetings/' Main.hs
-#add a package
 sed -i 's/process/process, stm/' server.cabal
-#check that force_clean_build doesn't break anything
 touch .openshift/markers/force_clean_build
-#check that tidy doesn't break anything
 rhc app tidy test
+check "build after tidy and force_clean_build" Greetings
+rm .openshift/markers/force_clean_build
 
-#test the changes
-git add .openshift/markers/force_clean_build
-git commit -a -m test
-git push
-curl -s $url | grep Greetings
-git rm .openshift/markers/force_clean_build
-
-#test cabal flags
+#cabal flags
 cp Main.hs test.hs
 sed -i 's/Greetings/Hello/' test.hs
 echo "Flag A" >>server.cabal
 sed -i 's/main-is: *Main.hs/if flag(a) {main-is:Main.hs} else {main-is:test.hs}/' server.cabal
 echo "b" >.openshift/markers/cabal_flags
-git add test.hs
-git add .openshift/markers/cabal_flags
-git commit -a -m test
-git push
-curl -s http://test-accursoft.rhcloud.com/ | grep Greetings
+check "enable flags" Greetings
 echo "-a" >>.openshift/markers/cabal_flags
-git commit -a -m test
-git push
-curl -s http://test-accursoft.rhcloud.com/ | grep Hello
-git rm .openshift/markers/cabal_flags
-git commit -a -m test
+check "unset flag" Hello
+rm .openshift/markers/cabal_flags
 
-#check run_tests
+#run_tests
 touch .openshift/markers/run_tests
-git add .openshift/markers/run_tests
 echo "main = return ()" >test.hs
 echo "test-suite test
   type:exitcode-stdio-1.0
   main-is:test.hs
   build-depends:binding-core" >>server.cabal
-git add test.hs
 sed -i 's/Greetings/Hello/' Main.hs
-git commit -a -m test
-git push
-curl -s http://test-accursoft.rhcloud.com/ | grep Hello
+check "run_tests" Hello
 
 #clear up
 rhc app delete test --confirm
 cd ..
 rm -rf test
+echo "PASSED"
