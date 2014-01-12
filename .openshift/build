@@ -104,15 +104,16 @@ case $build in
     exit 1
 esac
 
-#convert absolute paths in package db to relative
+#post-process package db
 ghc=`pwd`/usr/lib
 packages=$ghc/ghc-7.6.3/package.conf.d
-sed -i "s|$ghc|\$topdir/..|g" $packages/*.conf
-rm $packages/package.cache
-
+find $packages -newer .openshift/timestamp -name '*.conf' -exec sed -i "
+#convert absolute paths in package db to relative
+s|$ghc|\$topdir/..|g
 #remove references to non-existent documentation
-sed -i "s|haddock-interfaces: .*|haddock-interfaces:|g" $packages/*.conf
-sed -i "s|haddock-html: .*|haddock-html|g" $packages/*.conf
+s|haddock-interfaces: .*|haddock-interfaces:|
+s|haddock-html: .*|haddock-html|" {} +
+rm $packages/package.cache
 
 echo "* Stripping packages ..."
 find $ghc -newer .openshift/timestamp -name '*.a' -exec strip --strip-unneeded {} +
