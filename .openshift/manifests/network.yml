@@ -1,3 +1,6 @@
 Name: haskell
 Display-Name: Haskell
 Description: "GHC {GHC-version} and cabal-install"
+Help-Topics:
+  Hackage: http://hackage.haskell.org/package/network
+  Website: http://www.haskell.org/

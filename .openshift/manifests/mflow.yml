@@ -1,3 +1,6 @@
 Name: mflow
 Display-Name: MFlow
 Description: "GHC {GHC-version} and MFlow"
+Help-Topics:
+  Hackage: http://hackage.haskell.org/package/MFlow
+  Website: https://github.com/agocorona/MFlow
