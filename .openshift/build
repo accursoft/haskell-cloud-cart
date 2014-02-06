@@ -1,6 +1,7 @@
 #!/bin/bash -eu
 
 #local paths
+mkdir --parents usr/bin
 export OPENSHIFT_HASKELL_DIR=`pwd`
 export PATH=`pwd`/usr/bin:$PATH
 openshift=`pwd`/.openshift
@@ -38,6 +39,59 @@ if ! [ -e $PARTS_BIN/ld ]; then
   mv .openshift/bin/ld.gold $PARTS_BIN/ld
 fi
 cp $PARTS_BIN/ld usr/bin/
+
+#use existing ghc or install from binary distribution
+if ! [ -e $PARTS_BIN/ghc ]; then
+  pushd .openshift
+  echo "* Downloading GHC ..."
+  curl -s http://www.haskell.org/ghc/dist/7.8.1-rc2/ghc-7.8.0.20140228-x86_64-unknown-linux-rhel65.tar.bz2 | tar xj
+  cd ghc*
+  echo "* Installing GHC ..."
+  ./configure --prefix=$PARTS_BIN/ghc
+  make install
+  
+  #save space
+  cd $PARTS_BIN/ghc/lib/ghc*
+
+  #no haddock
+  rm bin/haddock
+  #no profiling or debugging
+  find -name "*_p.a" -o -name "*.p_hi" -o -name "*_debug*" -delete
+
+  #strip libraries and binaries
+  find -name '*.so' -o -name '*.a' -exec strip --strip-unneeded {} +
+  strip bin/*
+  
+  #remove hp2ps and redundant shortcuts
+  cd ../../bin
+  rm runhaskell haddock* hp2ps runghc* ghc ghci ghc-pkg
+  mv ghc-pkg-* ghcpkg
+  mv ghci-* ghci
+  mv ghc-* ghc
+  mv ghcpkg ghc-pkg
+  #fix haskell dir
+  sed -i "s|$PARTS_BIN/ghc|\$OPENSHIFT_HASKELL_DIR/usr|g" ghc ghci ghc-pkg
+  
+  #delete documentation but keep licenses
+  cd ..
+  mkdir doc
+  find -name LICENSE | while read f; do d=doc/${f:31:${#f}-39}; mkdir $d; mv $f $d; done
+  rm -r share/*
+  mv doc share
+  
+  #fix package db
+  cd lib/ghc*/package.conf.d
+  rm package.cache
+  ghc=`echo $PARTS_BIN/ghc/lib/ghc*`
+  sed -i "#convert absolute paths in package db to relative
+s|$ghc|\$topdir|g
+#remove references to non-existent documentation
+s|haddock-interfaces: .*|haddock-interfaces:|
+s|haddock-html: .*|haddock-html|" *.conf
+  
+  popd
+fi
+cp -r $PARTS_BIN/ghc/* usr
 
 #initialise the global package db
 ghc-pkg recache
@@ -107,7 +161,7 @@ esac
 
 #post-process package db
 ghc=`pwd`/usr/lib
-packages=$ghc/ghc-7.6.3/package.conf.d
+packages=$ghc/ghc-*/package.conf.d
 find $packages -newer .openshift/timestamp -name '*.conf' -exec sed -i "
 #convert absolute paths in package db to relative
 s|$ghc|\$topdir/..|g
@@ -117,13 +171,13 @@ s|haddock-html: .*|haddock-html|" {} +
 rm $packages/package.cache
 
 echo "* Stripping packages ..."
-find $ghc -newer .openshift/timestamp -name '*.a' -exec strip --strip-unneeded {} +
+find $ghc -newer .openshift/timestamp -name '*.so' -exec strip --strip-unneeded {} +
 
 echo "* Preparing the manifest and readme ..."
 echo "  - cabal-install-`cabal --numeric-version`" >>metadata/manifest.yml
 ls usr/lib -1 | grep -P "^$provides-\d" | sed 's/^/  - /' >>metadata/manifest.yml
 cat .openshift/manifests/$build.yml >>metadata/manifest.yml
-sed -i "s/{GHC-version}/7.6.3/g" metadata/manifest.yml
+sed -i "s/{GHC-version}/`ghc --numeric-version`/g" metadata/manifest.yml
 
 sed -i "s|template/||g" README.md
 mv README.md template
