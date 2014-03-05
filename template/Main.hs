@@ -8,6 +8,7 @@ import System.Environment
 
 main = do [host,port] <- getArgs
           sock <- socket AF_INET Stream defaultProtocol
+          setSocketOption sock ReuseAddr 1
           inet <- inet_addr host
           bind sock $ SockAddrInet (fromInteger $ read port) inet
           listen sock maxListenQueue
