@@ -19,19 +19,26 @@ check "create app" Welcome
 #tidy and force_clean_build
 cd test
 sed -i 's/Welcome/Greetings/' Main.hs
-sed -i 's/process/process, stm/' server.cabal
+sed -i 's/process/process, nats/' server.cabal
 touch .openshift/markers/force_clean_build
 rhc app tidy test
 check "build after tidy and force_clean_build" Greetings
 rm .openshift/markers/force_clean_build
 
+#jenkins
+rhc cartridge add jenkins-client -a test
+sed -i 's/Greetings/Howdy/' Main.hs
+sed -i 's/nats/nats, stm/' server.cabal
+check "jenkins build" Howdy
+xdg-open `rhc cartridge remove jenkins-client -a test --confirm | sed -n 's/Job URL: //p'`delete &>/dev/null &
+
 #cabal flags
 cp Main.hs test.hs
-sed -i 's/Greetings/Hello/' test.hs
+sed -i 's/Howdy/Hello/' test.hs
 echo "Flag A" >>server.cabal
 sed -i 's/main-is: *Main.hs/if flag(a) {main-is:Main.hs} else {main-is:test.hs}/' server.cabal
 echo "b" >.openshift/markers/cabal_flags
-check "enable flags" Greetings
+check "enable flags" Howdy
 echo "-a" >>.openshift/markers/cabal_flags
 check "unset flag" Hello
 rm .openshift/markers/cabal_flags
@@ -43,7 +50,7 @@ echo "test-suite test
   type:exitcode-stdio-1.0
   main-is:test.hs
   build-depends:binding-core" >>server.cabal
-sed -i 's/Greetings/Hello/' Main.hs
+sed -i 's/Howdy/Hello/' Main.hs
 check "run_tests" Hello
 
 #clear up

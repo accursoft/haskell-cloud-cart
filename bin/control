@@ -62,6 +62,7 @@ case "$1" in
       rm -rf $OPENSHIFT_HASKELL_DIR/cabal/dist/*
       ghc-pkg init $CABAL_PACKAGE_DB
     fi
+    [ "$(ghc-pkg check --package-db=$CABAL_PACKAGE_DB 2>&1)" ] && (echo "rebuilding package cache"; ghc-pkg recache --package-db=$CABAL_PACKAGE_DB)
     if marker_present cabal_update || [ ! -d $OPENSHIFT_HASKELL_DIR/cabal/packages/hackage.haskell.org ]; then
       marker_present cabal_update && echo "marker: cabal_update ..."
       cabal update
