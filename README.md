@@ -13,7 +13,7 @@ For a general understanding of the OpenShift environment, consult the [Online](h
 
 Installation
 ------------
-Haskell Cloud is built in various flavours, with different pre-installed packages. See the [Haskell wiki](http://www.haskell.org/haskellwiki/Web/Cloud) for details and installation links.
+Haskell Cloud is built in various flavours, with different pre-installed packages. See the [Haskell wiki][wiki] for details and installation links.
 
 Haskell
 -------
@@ -42,3 +42,15 @@ OpenShift's `tidy` command will delete all logs (if the server is stopped), caba
 Markers
 -------
 Markers can be created in `.openshift/markers` to modify the build process. See [README](template/.openshift/markers/README) for details.
+
+Building
+--------
+Pre-built cartridges can be installed from the links in the [Haskell wiki][wiki]. To build from source:
+
+1. Clone the repo onto an OpenShift gear. You can use the Jenkins git plugin for this.
+2. Set `$build` to one of the values in the `case` block in [build](.openshift/build).
+3. Set `$dev` to `true` to create a cartridge called dev, with no cartridge locks. Any other value will create a production cartridge.
+4. Run `.openshift/build`.
+5. Run `.openshift/package`. The manifest and zip will be created in `.openshift`.
+
+[wiki]: http://www.haskell.org/haskellwiki/Web/Cloud
