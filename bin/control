@@ -10,9 +10,9 @@ function start {
   if pid &>/dev/null; then
     warning "The server is already running."
   else
-    timestamp >>$OPENSHIFT_HASKELL_LOG_DIR/stdout.log
-    timestamp >>$OPENSHIFT_HASKELL_LOG_DIR/stderr.log
-    server $OPENSHIFT_HASKELL_IP $OPENSHIFT_HASKELL_PORT >>$OPENSHIFT_HASKELL_LOG_DIR/stdout.log 2>>$OPENSHIFT_HASKELL_LOG_DIR/stderr.log &
+    timestamp >>$OPENSHIFT_LOG_DIR/stdout.log
+    timestamp >>$OPENSHIFT_LOG_DIR/stderr.log
+    server $OPENSHIFT_HASKELL_IP $OPENSHIFT_HASKELL_PORT >>$OPENSHIFT_LOG_DIR/stdout.log 2>>$OPENSHIFT_LOG_DIR/stderr.log &
   fi
 }
 
@@ -46,7 +46,7 @@ case "$1" in
     ;;
   tidy)
     echo "deleting logs ..."
-    rm -rf $OPENSHIFT_HASKELL_LOG_DIR/*
+    rm -rf $OPENSHIFT_LOG_DIR/*
     echo "deleting hackage cache ..."
     rm -rf $OPENSHIFT_HASKELL_DIR/cabal/packages/*
     echo "emptying working directory ..."
@@ -72,7 +72,7 @@ case "$1" in
     if marker_present run_tests; then
       cabal install --enable-tests --only-dependencies
       echo "marker: run_tests ..."
-      log=$OPENSHIFT_HASKELL_LOG_DIR/tests.log
+      log=$OPENSHIFT_LOG_DIR/tests.log
       timestamp >>$log
       cabal test --log=$log
     fi

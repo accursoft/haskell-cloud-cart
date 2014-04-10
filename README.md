@@ -33,7 +33,7 @@ The `cabal_update` marker (see below) will run `cabal update` before every build
 
 Logging
 -------
-`stdout` and `stderr` are logged to `$OPENSHIFT_HASKELL_LOG_DIR` (remember to `hFlush stdout` after each log message, or `hSetBuffering stdout LineBuffering`). Other logs may be written to `$OPENSHIFT_HASKELL_LOG_DIR` as desired.
+`stdout` and `stderr` are logged to `$OPENSHIFT_LOG_DIR` (remember to `hFlush stdout` after each log message, or `hSetBuffering stdout LineBuffering`). Other logs may be written to `$OPENSHIFT_LOG_DIR` as desired.
 
 Tidying
 -------
