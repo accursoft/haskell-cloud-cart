@@ -45,7 +45,7 @@ case "$1" in
     [ $(pid) ]
     ;;
   tidy)
-    echo "deleting logs ..."
+    [ $(pid) ] && echo "the server is running, some logs may not be deleted"
     rm -rf $OPENSHIFT_LOG_DIR/*
     echo "deleting hackage cache ..."
     rm -rf $OPENSHIFT_HASKELL_DIR/cabal/packages/*
