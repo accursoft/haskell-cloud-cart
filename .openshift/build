@@ -44,7 +44,7 @@ cp $PARTS_BIN/ld usr/bin/
 if ! [ -e $PARTS_BIN/ghc ]; then
   pushd .openshift
   echo "* Downloading GHC ..."
-  curl -s http://www.haskell.org/ghc/dist/7.8.1/ghc-7.8.1-x86_64-unknown-linux-centos65.tar.bz2 | tar xj
+  curl -s https://www.haskell.org/ghc/dist/7.8.2/ghc-7.8.2-x86_64-unknown-linux-centos65.tar.xz | tar xJ
   cd ghc*
   echo "* Installing GHC ..."
   ./configure --prefix=$PARTS_BIN/ghc
