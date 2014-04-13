@@ -33,11 +33,13 @@ The `cabal_update` marker (see below) will run `cabal update` before every build
 
 Logging
 -------
-`stdout` and `stderr` are logged to `$OPENSHIFT_LOG_DIR` (remember to `hFlush stdout` after each log message, or `hSetBuffering stdout LineBuffering`). Other logs may be written to `$OPENSHIFT_LOG_DIR` as desired.
+`stdout`, `stderr` and `cabal test` are logged to `$OPENSHIFT_LOG_DIR` (remember to `hFlush stdout` after each log message, or `hSetBuffering stdout LineBuffering`). These logs are piped through [logshifter](https://github.com/openshift/origin-server/tree/master/logshifter), and are automatically rotated.
+
+Other logs may be written to `$OPENSHIFT_LOG_DIR` as desired.
 
 Tidying
 -------
-OpenShift's `tidy` command will delete all logs (if the server is stopped), cabal's cache of downloaded packages, and the repository working directory. Installed packages (and binaries) are not deleted.
+OpenShift's `tidy` command will delete all haskell-* logs, cabal's cache of downloaded packages, and the repository working directory. Installed packages (and binaries) are not deleted.
 
 Markers
 -------
