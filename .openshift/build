@@ -170,9 +170,6 @@ s|haddock-interfaces: .*|haddock-interfaces:|
 s|haddock-html: .*|haddock-html|" {} +
 rm $packages/package.cache
 
-echo "* Stripping packages ..."
-find $ghc -newer .openshift/timestamp -name '*.so' -exec strip --strip-unneeded {} +
-
 echo "* Preparing the manifest and readme ..."
 echo "  - cabal-install-`cabal --numeric-version`" >>metadata/manifest.yml
 ls usr/lib -1 | grep -P "^$provides-\d" | sed 's/^/  - /' >>metadata/manifest.yml

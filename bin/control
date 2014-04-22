@@ -89,9 +89,5 @@ s|$OPENSHIFT_BUILD_DEPENDENCIES_DIR|\${pkgroot}|g
 #remove references to non-existent documentation
 s|haddock-interfaces: .*|haddock-interfaces:|
 s|haddock-html: .*|haddock-html|" {} +
-    if [ -e $OPENSHIFT_BUILD_DEPENDENCIES_DIR/lib ]; then
-      echo "stripping libraries ..."
-      find $OPENSHIFT_BUILD_DEPENDENCIES_DIR/lib -newer .timestamp -name '*.a' -exec strip --strip-unneeded {} +
-    fi
     ;;
 esac
