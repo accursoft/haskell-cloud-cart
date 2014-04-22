@@ -2,5 +2,5 @@ Name: yesod
 Display-Name: Yesod
 Description: "GHC {GHC-version}, Yesod and Esqueleto"
 Help-Topics:
+  Yesod: http://www.yesodweb.com/
   Hackage: http://hackage.haskell.org/package/yesod-platform
-  Website: http://www.yesodweb.com/

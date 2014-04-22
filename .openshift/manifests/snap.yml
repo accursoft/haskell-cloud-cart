@@ -2,5 +2,5 @@ Name: snap
 Display-Name: Snap
 Description: "GHC {GHC-version} and Snap"
 Help-Topics:
+  Snap: http://snapframework.com/
   Hackage: http://hackage.haskell.org/package/snap
-  Website: http://snapframework.com/

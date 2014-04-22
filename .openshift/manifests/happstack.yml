@@ -2,5 +2,5 @@ Name: happstack
 Display-Name: Happstack
 Description: "GHC {GHC-version} and Happstack"
 Help-Topics:
+  Happstack: http://happstack.com/
   Hackage: http://hackage.haskell.org/package/happstack-foundation
-  Website: http://happstack.com/

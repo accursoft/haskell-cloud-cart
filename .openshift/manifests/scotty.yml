@@ -2,5 +2,5 @@ Name: scotty
 Display-Name: Scotty
 Description: "GHC {GHC-version} and Scotty"
 Help-Topics:
+  Scotty: https://github.com/ku-fpg/scotty
   Hackage: http://hackage.haskell.org/package/scotty
-  Website: https://github.com/ku-fpg/scotty
