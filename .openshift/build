@@ -114,7 +114,7 @@ if ! [ -e $PARTS_BIN/cabal ]; then
   export EXTRA_CONFIGURE_OPTS=--package-db=$openshift/ghc
   sed -i "s|\${HOME}/.cabal|$openshift/cabal|g" bootstrap.sh
   sed -i "s|\${CURL} -L|\${CURL} -s -L|g" bootstrap.sh
-  ./bootstrap.sh
+  ./bootstrap.sh --no-doc
   mv $openshift/cabal/bin/cabal $PARTS_BIN
   cd ../..
 fi
