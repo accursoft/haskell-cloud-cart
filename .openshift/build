@@ -82,6 +82,7 @@ case $build in
     provides="MFlow"
     ;;
   yesod)
+    cabal install --global alex
     cabal install --global yesod-platform happy esqueleto
     provides="yesod-platform-\d|^esqueleto"
     ;;
