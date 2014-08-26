@@ -120,6 +120,27 @@ if ! [ -e $PARTS_BIN/cabal ]; then
   export EXTRA_CONFIGURE_OPTS=--package-db=$openshift/ghc
   sed -i "s|\${HOME}/.cabal|$openshift/cabal|g" bootstrap.sh
   sed -i "s|\${CURL} -L|\${CURL} -s -L|g" bootstrap.sh
+
+  # modify bootstrap.sh to clean up as it goes
+  ed bootstrap.sh <<"EOF"
+/^unpack_pkg
+/^}
+-a
+  rm "${PKG}-${VER}.tar.gz"
+.
+/^install_pkg
+/^}
+-a
+  rm -rf *
+.
+/^rm ghc-pkg.list
+c
+[ -f ghc-pkg.list ] && rm ghc-pkg.list
+true
+.
+w
+q
+EOF
   ./bootstrap.sh --no-doc
   mv $openshift/cabal/bin/cabal $PARTS_BIN
   cd ../..
