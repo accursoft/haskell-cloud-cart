@@ -21,6 +21,8 @@ if ! [ -e $PARTS_BIN/ld ]; then
     make install
     strip $PARTS_BIN/bin/bison $PARTS_BIN/lib/liby.a
     cd ..
+    echo "* Cleaning bison ..."
+    rm -r bison-*
   fi
   export PATH=$PATH:$PARTS_BIN/bin
   echo "* Downloading bin-utils ..."
@@ -34,7 +36,10 @@ if ! [ -e $PARTS_BIN/ld ]; then
   ./configure --prefix=$openshift
   make
   make install
-  cd ../../..
+  cd ../..
+  echo "* Cleaning bin-utils ..."
+  rm -rf binutils-*
+  cd ..
   strip .openshift/bin/ld.gold
   mv .openshift/bin/ld.gold $PARTS_BIN/ld
 fi
@@ -90,6 +95,7 @@ s|haddock-interfaces: .*|haddock-interfaces:|
 s|haddock-html: .*|haddock-html|" *.conf
   
   popd
+  rm -r .openshift/ghc-*
 fi
 cp -r $PARTS_BIN/ghc/* usr
 
