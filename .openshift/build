@@ -61,10 +61,10 @@ if ! [ -e $PARTS_BIN/ghc ]; then
   #no haddock
   rm bin/haddock
   #no profiling or debugging
-  find -name "*_p.a" -o -name "*.p_hi" -o -name "*_debug*" -delete
+  find '(' -name "*_p.a" -o -name "*.p_hi" -o -name "*_debug*" ')' -delete
 
   #strip libraries and binaries
-  find -name '*.so' -o -name '*.a' -exec strip --strip-unneeded {} +
+  find '(' -name '*.so' -o -name '*.a' ')' -exec strip --strip-unneeded {} ';'
   strip bin/*
   
   #remove hp2ps and redundant shortcuts
