@@ -19,7 +19,7 @@ check "create app" Welcome
 #tidy and force_clean_build
 cd test
 sed -i 's/Welcome/Greetings/' Main.hs
-sed -i 's/process/process, nats/' server.cabal
+sed -i 's/process/process, groups/' server.cabal
 touch .openshift/markers/force_clean_build
 rhc app tidy test
 check "build after tidy and force_clean_build" Greetings
@@ -28,7 +28,7 @@ rm .openshift/markers/force_clean_build
 #jenkins
 rhc cartridge add jenkins-client -a test
 sed -i 's/Greetings/Howdy/' Main.hs
-sed -i 's/nats/nats, stm/' server.cabal
+sed -i 's/groups/groups, stm/' server.cabal
 check "jenkins build" Howdy
 xdg-open `rhc cartridge remove jenkins-client -a test --confirm | sed -n 's/Job URL: //p'`delete &>/dev/null &
 
