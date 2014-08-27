@@ -97,7 +97,7 @@ s|haddock-html: .*|haddock-html|" *.conf
   popd
   rm -r .openshift/ghc-*
 fi
-cp -r $PARTS_BIN/ghc/* usr
+cp -flr $PARTS_BIN/ghc/* usr
 
 #initialise the global package db
 ghc-pkg recache
