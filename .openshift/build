@@ -159,6 +159,7 @@ case $build in
     provides="network"
     ;;
   mflow)
+    cabal install --global cpphs
     cabal install --global MFlow
     provides="MFlow"
     ;;
