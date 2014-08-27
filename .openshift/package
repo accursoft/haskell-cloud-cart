@@ -6,5 +6,5 @@ if [ $dev = "true" ]; then
   sed -i '/processed_templates/,$!d' metadata/managed_files.yml
 fi
 echo "Source-Url: http://www.accursoft.com/cartridges/$build.tar.gz" >>metadata/manifest.yml
-gzip -czf .openshift/$build.tar.gz *
+gtar czf .openshift/$build.tar.gz *
 mv metadata/manifest.yml .openshift/$build.yml
