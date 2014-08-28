@@ -2,7 +2,7 @@ Cartridge-Short-Name: HASKELL
 Version: '{GHC-version}'
 Cartridge-Version: 1.0
 Cartridge-Vendor: accursoft
-Website: https://github.com/accursoft/Haskell-Cloud
+Website: http://code.accursoft.com/haskell-cloud/
 Install-Build-Required: True
 Categories:
   - haskell
