@@ -165,8 +165,8 @@ case $build in
     ;;
   yesod)
     cabal install --global alex
-    cabal install --global yesod-platform happy esqueleto
-    provides="yesod-platform-\d|^esqueleto"
+    cabal install --global yesod yesod-bin alex happy esqueleto
+    provides="yesod-\d|^esqueleto"
     ;;
   snap)
     cabal install --global snap
