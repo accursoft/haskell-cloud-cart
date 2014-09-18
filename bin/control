@@ -3,7 +3,9 @@
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
 function pid {
-  lsof -ti @$OPENSHIFT_HASKELL_IP:$OPENSHIFT_HASKELL_PORT -sTCP:listen
+  PID=$(oo-lists-ports |grep "$OPENSHIFT_HASKELL_IP:$OPENSHIFT_HASKELL_PORT" | awk '{ print $2 }')
+  echo $PID
+  [ -n "$PID" ]
 }
 
 function start {
