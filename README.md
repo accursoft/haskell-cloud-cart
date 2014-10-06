@@ -59,4 +59,4 @@ Pre-built cartridges can be installed from the links in the [Haskell wiki][wiki]
 4. Run `.openshift/build`.
 5. Run `.openshift/package`. The manifest and zip will be created in `.openshift`.
 
-[wiki]: http://www.haskell.org/haskellwiki/Web/Cloud
+[wiki]: http://www.haskell.org/haskellwiki/Web/Cloud#OpenShift
