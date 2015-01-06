@@ -75,7 +75,7 @@ if ! [ -e $PARTS_BIN/ghc ]; then
   mv ghc-* ghc
   mv ghcpkg ghc-pkg
   #fix haskell dir
-  sed -i "s|$PARTS_BIN/ghc|\$OPENSHIFT_HASKELL_DIR/usr|g" ghc ghci ghc-pkg
+  sed -i "s|$PARTS_BIN/ghc|\$OPENSHIFT_HASKELL_DIR/usr|g" ghc ghci ghc-pkg hpc hsc2hs
   
   #delete documentation but keep licenses
   cd ..
