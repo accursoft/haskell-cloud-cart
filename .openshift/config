@@ -8,7 +8,7 @@
 -- used to indicate layout for nested sections.
 
 
-remote-repo: stackage:http://www.stackage.org/alias/fpcomplete/unstable-ghc78-inclusive
+remote-repo: hackage.haskell.org:http://hackage.haskell.org/packages/archive
 remote-repo-cache: !packages!
 -- local-repo:
 -- logs-dir:
