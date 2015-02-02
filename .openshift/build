@@ -157,7 +157,7 @@ touch .openshift/timestamp
 echo "* Installing packages ..."
 case $build in
   network)
-    cabal install --global network
+    cabal install --global network text
     provides="network"
     ;;
   mflow)
