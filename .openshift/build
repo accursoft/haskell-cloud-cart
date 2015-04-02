@@ -69,13 +69,14 @@ if ! [ -e $PARTS_BIN/ghc ]; then
   
   #remove hp2ps and redundant shortcuts
   cd ../../bin
-  rm runhaskell haddock* hp2ps runghc* ghc ghci ghc-pkg
+  rm haddock* hp2ps runghc ghc ghci ghc-pkg
   mv ghc-pkg-* ghcpkg
   mv ghci-* ghci
   mv ghc-* ghc
+  mv runghc-* runghc
   mv ghcpkg ghc-pkg
   #fix haskell dir
-  sed -i "s|$PARTS_BIN/ghc|\$OPENSHIFT_HASKELL_DIR/usr|g" ghc ghci ghc-pkg hpc hsc2hs
+  sed -i "s|$PARTS_BIN/ghc|\$OPENSHIFT_HASKELL_DIR/usr|g" ghc ghci ghc-pkg hpc hsc2hs runghc
   
   #delete documentation but keep licenses
   cd ..
