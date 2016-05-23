@@ -49,7 +49,7 @@ cp $PARTS_BIN/ld usr/bin/
 if ! [ -e $PARTS_BIN/ghc ]; then
   pushd .openshift
   echo "* Downloading GHC ..."
-  curl -s https://downloads.haskell.org/~ghc/7.10.3/ghc-7.10.3-x86_64-centos67-linux.tar.xz | tar xJ
+  curl -s https://downloads.haskell.org/~ghc/8.0.1/ghc-8.0.1-x86_64-centos67-linux.tar.xz | tar xJ
   cd ghc*
   echo "* Installing GHC ..."
   ./configure --prefix=$PARTS_BIN/ghc
@@ -81,7 +81,7 @@ if ! [ -e $PARTS_BIN/ghc ]; then
   #delete documentation but keep licenses
   cd ..
   mkdir doc
-  find -name LICENSE | while read f; do d=doc/${f:31:${#f}-39}; mkdir $d; mv $f $d; done
+  find -name LICENSE | while read f; do d=doc/${f:37:${#f}-45}; mkdir $d; mv $f $d; done
   rm -r share/*
   mv doc share
   
