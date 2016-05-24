@@ -18,8 +18,7 @@ if ! [ -e $PARTS_BIN/ld ]; then
     echo "* Building bison ..."
     ./configure --prefix=$PARTS_BIN
     make
-    make install
-    strip $PARTS_BIN/bin/bison $PARTS_BIN/lib/liby.a
+    make install-strip
     cd ..
     echo "* Cleaning bison ..."
     rm -r bison-*
@@ -35,12 +34,11 @@ if ! [ -e $PARTS_BIN/ld ]; then
   echo "* Building gold ..."
   ./configure --prefix=$openshift
   make
-  make install
+  make install-strip
   cd ../..
   echo "* Cleaning bin-utils ..."
   rm -rf binutils-*
   cd ..
-  strip .openshift/bin/ld.gold
   mv .openshift/bin/ld.gold $PARTS_BIN/ld
 fi
 cp $PARTS_BIN/ld usr/bin/
@@ -53,7 +51,7 @@ if ! [ -e $PARTS_BIN/ghc ]; then
   cd ghc*
   echo "* Installing GHC ..."
   ./configure --prefix=$PARTS_BIN/ghc
-  make install
+  make install-strip
   
   #save space
   cd $PARTS_BIN/ghc/lib/ghc*
@@ -62,10 +60,9 @@ if ! [ -e $PARTS_BIN/ghc ]; then
   rm bin/haddock
   #no profiling or debugging
   find '(' -name "*_p.a" -o -name "*.p_hi" -o -name "*_debug*" ')' -delete
-
-  #strip libraries and binaries
-  find '(' -name '*.so' -o -name '*.a' ')' -exec strip --strip-unneeded {} ';'
-  strip bin/*
+  
+  #strip rtc
+  strip --strip-unneeded rts/libHSrts*
   
   #remove hp2ps and redundant shortcuts
   cd ../../bin
