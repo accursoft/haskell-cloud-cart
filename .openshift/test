@@ -30,7 +30,7 @@ rhc cartridge add jenkins-client -a test
 sed -i 's/Greetings/Howdy/' Main.hs
 sed -i 's/groups/groups, stm/' server.cabal
 check "jenkins build" Howdy
-xdg-open `rhc cartridge remove jenkins-client -a test --confirm | sed -n 's/Job URL: //p'`delete &>/dev/null &
+test-job=`rhc cartridge remove jenkins-client -a test --confirm | sed -n 's/Job URL: //p'`delete
 
 #cabal flags
 cp Main.hs test.hs
@@ -58,3 +58,4 @@ rhc app delete test --confirm
 cd ..
 rm -rf test
 echo "PASSED"
+echo "You may delete the Jenkins job: $test-job"
