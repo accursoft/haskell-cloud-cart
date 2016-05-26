@@ -60,6 +60,8 @@ if ! [ -e $PARTS_BIN/ghc ]; then
   rm bin/haddock
   #no profiling or debugging
   find '(' -name "*_p.a" -o -name "*.p_hi" -o -name "*_debug*" ')' -delete
+  #no eventlog
+  rm rts/*_l.a
   
   #strip rtc
   strip --strip-unneeded rts/libHSrts*
